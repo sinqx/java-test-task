@@ -3,8 +3,6 @@ package com.testTask.test.service;
 import com.testTask.test.entity.User;
 import com.testTask.test.model.AuthModel;
 
-import java.util.List;
-
 public interface UserService {
     User findById(Long id);
     User saveWithPasswordEncode(User user) throws Exception;
