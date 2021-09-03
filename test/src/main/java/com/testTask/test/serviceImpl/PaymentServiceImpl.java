@@ -22,40 +22,42 @@ public class PaymentServiceImpl implements PaymentService {
     private UserService userService;
 
     @Override
-    public Payment save(Payment payment){
+    public Payment save(Payment payment) {
         return paymentRepository.save(payment);
     }
 
     @Override
-    public Payment pay(Payment payment) {
+    public void pay(Payment payment) {
         User userAccount = userService.findByPhoneNumber(payment.getAccount());
         User userSupplier = userService.findById(payment.getSupplierId());
 
-        if (payment.getAmount() > userAccount.getMoneyAmount())
-        {
-            throw new PaymentException("Not enough money on the balance sheet");
-        }else if(payment.getDate() == null){
+        if (payment.getAmount() > userAccount.getMoneyAmount()) {
+            throw new PaymentException("Not enough money on the balance");
+        } else if (payment.getDate() == null) {
             payment.setDate(LocalDateTime.now());
         }
+
         userAccount.setMoneyAmount(userAccount.getMoneyAmount() - payment.getAmount());
         userSupplier.setMoneyAmount(userSupplier.getMoneyAmount() + payment.getAmount());
+
         userService.save(userAccount);
         userService.save(userSupplier);
         paymentRepository.save(payment);
-        return payment;
     }
 
     @Override
     public Payment findById(Long id) {
-        return paymentRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Payment with id \"" + id + "\" doesn't exist"));
+        return paymentRepository.findById(id).orElseThrow(()
+                -> new ObjectNotFoundException("Payment with id \"" + id + "\" doesn't exist"));
     }
 
     @Override
     public String checkPayment(Payment pay) {
-        if (paymentRepository.findById(pay.getId()).isPresent()){
-            return "Payment exists";
-        }else {
-            throw new PaymentException("Payment with id " + pay.getId() + "doesn't exists");
+        List<Payment> payments = getAllPayments();
+        if (payments.contains(pay)) {
+            return "PAYMENT EXISTS";
+        } else {
+            return "PAYMENT DOESN'T EXISTS";
         }
     }
 

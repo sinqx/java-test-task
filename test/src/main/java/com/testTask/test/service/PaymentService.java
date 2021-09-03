@@ -1,11 +1,12 @@
 package com.testTask.test.service;
 
 import com.testTask.test.entity.Payment;
+import com.testTask.test.response.PaymentResponse;
 
 import java.util.List;
 
 public interface PaymentService {
-    Payment pay(Payment pay);
+    void pay(Payment pay);
     Payment findById(Long id);
     Payment save(Payment payment);
     String checkPayment(Payment pay);
