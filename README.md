@@ -1,14 +1,14 @@
-# kgBankTestTask
+# Payment creaction usinx XML
 
 User creation 
 {
-		"fullName": "Name",
-    "email": "Mail@mail",
-		"login": "test",
-    "password": "test",
-    "phoneNumber": "123123",
-	  "moneyAmount": "100000",
-    "status": 1
+	"fullName": "Name",
+	"email": "Mail@mail",
+	"login": "test",
+	"password": "test",
+	"phoneNumber": "123123",
+	"moneyAmount": "100000",
+	"status": 1
 }
 
 Payment
